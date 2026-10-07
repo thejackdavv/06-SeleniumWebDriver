@@ -13,6 +13,13 @@ jobs:
   build_test_project1:
 
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        project:
+          - TestProject1/TestProject1.csproj
+          - TestProject2/TestProject2.csproj
+          - TestProject3/TestProject3.csproj
 
     steps:
     - uses: actions/checkout@v4
@@ -24,39 +31,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Run Project1 Tests
-      run: dotnet test TestProject1/TestProject1.csproj --no-build --verbosity normal
+    - name: Run Tests
+      run: dotnet test ${{ matrix.project }} --no-build --verbosity normal
   
-  build_test_project2:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Run Project1 Tests
-      run: dotnet test TestProject2/TestProject2.csproj --no-build --verbosity normal
-  
-  build_test_project3:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Run Project1 Tests
-      run: dotnet test TestProject3/TestProject3.csproj --no-build --verbosity normal
